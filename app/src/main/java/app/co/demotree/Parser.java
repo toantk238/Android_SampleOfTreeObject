@@ -27,6 +27,9 @@ public class Parser {
 
     public static RootNode parseIntoRootNode(String jsonString) {
         RootNode rootNode = GSON_PARSER.fromJson(jsonString, RootNode.class);
+        /*
+        !!! IMPORTANT : Must set parent node for children.
+        */
         setParentNodeForChildren(rootNode);
         return rootNode;
     }
@@ -47,10 +50,15 @@ public class Parser {
                 String type = typeElement.getAsString();
 
                 if ("leaf".equals(type)) {
+                    // Create object Leaf.
                     return GSON_PARSER.fromJson(jsonString, Leaf.class);
                 } else if ("node".equals(type)) {
+                    // Create object Node.
                     Node node = GSON_PARSER.fromJson(jsonString, Node.class);
 
+                    /*
+                    !!! IMPORTANT : Must set parent node for children.
+                     */
                     setParentNodeForChildren(node);
                     return node;
                 }
